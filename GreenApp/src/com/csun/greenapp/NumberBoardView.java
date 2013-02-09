@@ -1,7 +1,12 @@
 package com.csun.greenapp;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import com.csun.greenapp.types.GameState;
+import com.csun.greenapp.utils.UiUtil;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -15,11 +20,13 @@ import android.view.MotionEvent;
 import android.view.View;
 
 public class NumberBoardView extends View {
-	private static final int SPACING = 65;
+	private static final int SPACING = 64;
 	private static final int ROW = 10;
 	private static final int COL = 5;
 	private static final int TEXT_SIZE = 40;
 	private static final Paint painter;
+	private Context context;
+	
 	static {
 		painter = new Paint();
 		// painter.setStyle(Style.FILL);
@@ -29,7 +36,8 @@ public class NumberBoardView extends View {
 	}
 	
 	private List<Integer> numbers;
-	
+	private Map<Integer, Integer> states;
+	private Map<String, Integer> locations;
 	
 	public NumberBoardView(Context context) {
 		super(context);
@@ -47,9 +55,19 @@ public class NumberBoardView extends View {
 	}
 	
 	private void init(Context context) {
+		this.context = context;
+		states = new HashMap<Integer, Integer>();
+		locations = new HashMap<String, Integer>();
 		numbers = new ArrayList<Integer>();
-		for (int i = 0; i < 50; ++i) {
-			numbers.add(i);
+		String key;
+		int count = 1;
+		for (int y = SPACING; y <= ROW * SPACING; y += SPACING) {
+			for (int x = SPACING; x <= COL * SPACING; x += SPACING) {
+				key = x + ":" + y;
+				locations.put(key, count);
+				numbers.add(count);
+				count++;
+			}
 		}
 	}
 
@@ -60,33 +78,48 @@ public class NumberBoardView extends View {
 		for (int y = SPACING; y <= ROW * SPACING; y += SPACING) {
 			for (int x = SPACING; x <= COL * SPACING; x += SPACING) {
 				canvas.drawText(numbers.get(index).toString(), x, y, painter);
+				if (states.containsKey(numbers.get(index))) {
+					int id = states.get(numbers.get(index));
+					switch (id) {
+						case 0:
+							painter.setColor(Color.CYAN);
+							break;
+						case 1:
+							painter.setColor(Color.GREEN);
+							break;
+						case 2:
+							painter.setColor(Color.MAGENTA);
+							break;
+					}
+					canvas.drawCircle(x, y, 20, painter);
+				}
 				index++;
 			}
 		}
 	}
-
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		int action = event.getAction();
-		switch (action) {
-			case MotionEvent.ACTION_DOWN:
-				break;
-				
-			case MotionEvent.ACTION_UP:
-				break;
-				
-			case MotionEvent.ACTION_CANCEL:
-				break;
-				
-			case MotionEvent.ACTION_MOVE:
-				break;
-				
-			case MotionEvent.ACTION_OUTSIDE:
-				break;
+	
+	private int estimateFingerPositionCoordinate(int coordinate, int offset) {
+		if ((coordinate % offset) > offset/2) {
+			return ((coordinate / offset) + 1) * offset;
+		} else {
+			return (coordinate / offset)  * offset;
 		}
-		
-		// force redraw 
-		invalidate();
-		return true;
 	}
+	
+	public int getNumberAt(MotionEvent event) {
+		int x = estimateFingerPositionCoordinate((int) event.getX(), SPACING/2);
+		int y = estimateFingerPositionCoordinate((int) event.getY(), SPACING/2);
+		String key = x + ":" + y;
+		if (locations.containsKey(key)) {
+			return locations.get(key);
+		}
+		return 0;
+	}
+
+	public synchronized void addNewState(GameState state) {
+		if (!states.containsKey(state.getNumber())) {
+			states.put(state.getNumber(), state.getUserId());
+		}
+	}
+	
 }
