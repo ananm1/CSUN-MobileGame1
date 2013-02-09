@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Green App Lobby</string>
+    <string name="waiting_players">Waiting Players</string>
+    <string name="your_user_id">Your user ID: </string>
+    <string name="user_id">0</string>
+    <string name="start_game">Start Game</string>
+
+</resources>
