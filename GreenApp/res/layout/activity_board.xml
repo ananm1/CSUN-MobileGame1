@@ -7,7 +7,14 @@
     <com.csun.greenapp.NumberBoardView
         xmlns:custom="http://schemas.android.com/apk/res/com.csun.greenapp"
         android:id="@+id/activity_board_XML_number_board"
-        android:layout_width="match_parent"
+        android:layout_width="263dp"
         android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/activity_main_XML_textview_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </LinearLayout>

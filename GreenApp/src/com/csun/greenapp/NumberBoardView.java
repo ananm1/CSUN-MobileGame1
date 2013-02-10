@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import com.csun.greenapp.types.GameState;
 import com.csun.greenapp.utils.UiUtil;
@@ -54,21 +55,55 @@ public class NumberBoardView extends View {
 		init(context);
 	}
 	
+	private int[] getRandomNumberList() {
+		final int SIZE = 50;
+		int[] numbers = new int[SIZE];
+		for (int i = 0; i < SIZE; ++i) {
+			numbers[i] = i + 1;
+		}
+		
+		Random gen = new Random();
+		for (int i = 0; i < SIZE; ++i) {
+			int j = i + gen.nextInt(SIZE - i);
+			// swap
+			int temp = numbers[i];
+			numbers[i] = numbers[j];
+			numbers[j] = temp;
+		}
+		return numbers;
+	}
+	
 	private void init(Context context) {
 		this.context = context;
 		states = new HashMap<Integer, Integer>();
 		locations = new HashMap<String, Integer>();
 		numbers = new ArrayList<Integer>();
+		int[] values = getRandomNumberList();
 		String key;
-		int count = 1;
+		int idx = 0;
 		for (int y = SPACING; y <= ROW * SPACING; y += SPACING) {
 			for (int x = SPACING; x <= COL * SPACING; x += SPACING) {
 				key = x + ":" + y;
-				locations.put(key, count);
-				numbers.add(count);
-				count++;
+				locations.put(key, values[idx]);
+				numbers.add(values[idx]);
+				idx++;
 			}
 		}
+	}
+	
+	public synchronized int getStateSize() {
+		return states.size();
+	}
+	
+	public synchronized int getUserScore(int id) {
+		int scores = 1;
+		for (Map.Entry<Integer, Integer> item : states.entrySet()) {
+			Integer userId = item.getValue();
+			if (userId.equals(id)) {
+				scores++;
+			}
+		}
+		return scores;
 	}
 
 	@Override

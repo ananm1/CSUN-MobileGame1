@@ -21,29 +21,40 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Vibrator;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.TextView;
 
-public class NumberGameActivity extends Activity {
+public class NumberGameActivity extends FragmentActivity {
+	private static final String TAG = NumberGameActivity.class.getSimpleName();
 	private static final String URL_SUBMIT_STRIKE = "http://bookboi.com/chan/greenapp/ss12_submit.php";
 	private static final String URL_UPDATE_STATE = "http://bookboi.com/chan/greenapp/ss12_update.php";
-	private boolean gameOver;
 	private NumberBoardView boardView;
 	private GameTask gameTask;
 	private StrikeTask strikeTask = null;
+	private TextView score;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_board);
-		gameOver = false;
 		gameTask = new GameTask(URL_UPDATE_STATE);
 		gameTask.execute();
 		setUpBoardView();
+		setUpScoreView();
+	}
+	
+	private void setUpScoreView() {
+		score = (TextView) findViewById(R.id.activity_main_XML_textview_score);
+		score.setTextColor(Color.RED);
 	}
 
 	private void setUpBoardView() {
@@ -60,6 +71,10 @@ public class NumberGameActivity extends Activity {
 							strikeTask = new StrikeTask(URL_SUBMIT_STRIKE, Integer.toString(number));
 							strikeTask.execute();
 						}
+						updateScore();
+					} else {
+						Vibrator vib = (Vibrator) getSystemService(NumberGameActivity.VIBRATOR_SERVICE);
+						vib.vibrate(300);
 					}
 
 					UiUtil.showText(NumberGameActivity.this, Integer.toString(boardView.getNumberAt(event)));
@@ -82,7 +97,13 @@ public class NumberGameActivity extends Activity {
 		});
 	}
 
-	private class GameTask extends AsyncTask<Void, Void, Void> {
+	private void showGameoverDialog() {
+		FragmentManager fm = getSupportFragmentManager();
+        GameoverDialog d = new GameoverDialog();
+        d.show(fm, "Game Over");	
+	}
+	
+	private class GameTask extends AsyncTask<Void, Void, Boolean> {
 		private String url;
 
 		public GameTask(String url) {
@@ -100,9 +121,9 @@ public class NumberGameActivity extends Activity {
 		}
 
 		@Override
-		protected Void doInBackground(Void... params) {
+		protected Boolean doInBackground(Void... params) {
 			List<GameState> states = new ArrayList<GameState>();
-			while (!isCancelled() && !gameOver) {
+			while (!isCancelled() && !isGameOver()) {
 				InputStream input = RESTUtil.get(url);
 				// build JSON array
 				JSONArray array = null;
@@ -116,11 +137,10 @@ public class NumberGameActivity extends Activity {
 							if (!isCancelled()) {
 								GameState s = null;
 								try {
-									s = new GameStateParser().parse(array
-											.getJSONObject(i));
+									s = new GameStateParser().parse(array.getJSONObject(i));
 									boardView.addNewState(s);
 								} catch (JSONException e) {
-									e.printStackTrace();
+									Log.e(TAG, "Parsing exception " + e, e);
 								}
 							}
 						}
@@ -133,8 +153,8 @@ public class NumberGameActivity extends Activity {
 		}
 
 		@Override
-		protected void onPostExecute(Void input) {
-
+		protected void onPostExecute(Boolean result) {
+			 showGameoverDialog();
 		}
 	}
 
@@ -160,7 +180,7 @@ public class NumberGameActivity extends Activity {
 		@Override
 		protected Void doInBackground(Void... params) {
 			List<NameValuePair> extras = new ArrayList<NameValuePair>();
-			extras.add(new BasicNameValuePair("user_id", "3"));
+			extras.add(new BasicNameValuePair("user_id", "2"));
 			extras.add(new BasicNameValuePair("number", number));
 			RESTUtil.post(url, extras);
 			return null;
@@ -170,6 +190,14 @@ public class NumberGameActivity extends Activity {
 		protected void onPostExecute(Void input) {
 
 		}
+	}
+	
+	private void updateScore() {
+		score.setText(Integer.toString(boardView.getUserScore(3)));
+	}
+	
+	private synchronized boolean isGameOver() {
+		return (boardView.getStateSize() == 50);
 	}
 
 	public boolean haveTaskAvailable(AsyncTask<?, ?, ?> task) {
