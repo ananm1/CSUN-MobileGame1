@@ -10,8 +10,8 @@ public class GameStateParser extends AbstractParser<GameState> {
 		if (json.has("number")) {
 			obj.setNumber(json.getInt("number"));
 		}
-		if (json.has("userId")) {
-			obj.setNumber(json.getInt("userId"));
+		if (json.has("user_id")) {
+			obj.setUserId(json.getInt("user_id"));
 		}
 		return obj;
 	}

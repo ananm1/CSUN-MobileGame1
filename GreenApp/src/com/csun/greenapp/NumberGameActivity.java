@@ -30,7 +30,7 @@ import android.view.View.OnTouchListener;
 
 public class NumberGameActivity extends Activity {
 	private static final String URL_SUBMIT_STRIKE = "http://bookboi.com/chan/greenapp/ss12_submit.php";
-	private static final String URL_UPDATE_STATE = "http";
+	private static final String URL_UPDATE_STATE = "http://bookboi.com/chan/greenapp/ss12_update.php";
 	private boolean gameOver;
 	private NumberBoardView boardView;
 	private GameTask gameTask;
@@ -41,10 +41,11 @@ public class NumberGameActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_board);
 		gameOver = false;
-		// gameTask = new GameTask(URL_UPDATE_STATE);
+		gameTask = new GameTask(URL_UPDATE_STATE);
+		gameTask.execute();
 		setUpBoardView();
 	}
-	
+
 	private void setUpBoardView() {
 		boardView = (NumberBoardView) findViewById(R.id.activity_board_XML_number_board);
 		boardView.setOnTouchListener(new OnTouchListener() {
@@ -52,25 +53,29 @@ public class NumberGameActivity extends Activity {
 			public boolean onTouch(View v, MotionEvent event) {
 				int action = event.getAction();
 				switch (action) {
-					case MotionEvent.ACTION_DOWN:
+				case MotionEvent.ACTION_DOWN:
+					int number = boardView.getNumberAt(event);
+					if (number != 0) {
 						if (haveTaskAvailable(strikeTask)) {
-							UiUtil.showText(NumberGameActivity.this, Integer.toString(boardView.getNumberAt(event)));
-							strikeTask = new StrikeTask(URL_SUBMIT_STRIKE, Integer.toString(boardView.getNumberAt(event)));
+							strikeTask = new StrikeTask(URL_SUBMIT_STRIKE, Integer.toString(number));
 							strikeTask.execute();
 						}
-						break;
-						
-					case MotionEvent.ACTION_UP:
-						break;
-						
-					case MotionEvent.ACTION_CANCEL:
-						break;
-						
-					case MotionEvent.ACTION_MOVE:
-						break;
-						
-					case MotionEvent.ACTION_OUTSIDE:
-						break;
+					}
+
+					UiUtil.showText(NumberGameActivity.this, Integer.toString(boardView.getNumberAt(event)));
+					break;
+
+				case MotionEvent.ACTION_UP:
+					break;
+
+				case MotionEvent.ACTION_CANCEL:
+					break;
+
+				case MotionEvent.ACTION_MOVE:
+					break;
+
+				case MotionEvent.ACTION_OUTSIDE:
+					break;
 				}
 				return true;
 			}
@@ -79,11 +84,11 @@ public class NumberGameActivity extends Activity {
 
 	private class GameTask extends AsyncTask<Void, Void, Void> {
 		private String url;
-		
+
 		public GameTask(String url) {
 			this.url = url;
 		}
-		
+
 		@Override
 		protected void onPreExecute() {
 		}
@@ -111,7 +116,8 @@ public class NumberGameActivity extends Activity {
 							if (!isCancelled()) {
 								GameState s = null;
 								try {
-									s = new GameStateParser().parse(array.getJSONObject(i));
+									s = new GameStateParser().parse(array
+											.getJSONObject(i));
 									boardView.addNewState(s);
 								} catch (JSONException e) {
 									e.printStackTrace();
@@ -131,16 +137,16 @@ public class NumberGameActivity extends Activity {
 
 		}
 	}
-	
+
 	private class StrikeTask extends AsyncTask<Void, Void, Void> {
 		private String url;
 		private String number;
-		
+
 		public StrikeTask(String url, String number) {
 			this.url = url;
 			this.number = number;
 		}
-		
+
 		@Override
 		protected void onPreExecute() {
 		}
@@ -154,7 +160,7 @@ public class NumberGameActivity extends Activity {
 		@Override
 		protected Void doInBackground(Void... params) {
 			List<NameValuePair> extras = new ArrayList<NameValuePair>();
-			extras.add(new BasicNameValuePair("user_id", "1"));
+			extras.add(new BasicNameValuePair("user_id", "3"));
 			extras.add(new BasicNameValuePair("number", number));
 			RESTUtil.post(url, extras);
 			return null;
@@ -165,8 +171,8 @@ public class NumberGameActivity extends Activity {
 
 		}
 	}
-	
+
 	public boolean haveTaskAvailable(AsyncTask<?, ?, ?> task) {
-        return ((task == null) || (task != null && task.getStatus() == AsyncTask.Status.FINISHED));
+		return ((task == null) || (task != null && task.getStatus() == AsyncTask.Status.FINISHED));
 	}
 }

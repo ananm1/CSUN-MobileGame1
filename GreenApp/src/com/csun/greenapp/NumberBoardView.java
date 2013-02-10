@@ -23,7 +23,7 @@ public class NumberBoardView extends View {
 	private static final int SPACING = 64;
 	private static final int ROW = 10;
 	private static final int COL = 5;
-	private static final int TEXT_SIZE = 40;
+	private static final int TEXT_SIZE = 35;
 	private static final Paint painter;
 	private Context context;
 	
@@ -77,21 +77,23 @@ public class NumberBoardView extends View {
 		int index = 0;
 		for (int y = SPACING; y <= ROW * SPACING; y += SPACING) {
 			for (int x = SPACING; x <= COL * SPACING; x += SPACING) {
+				painter.setColor(Color.BLACK);
 				canvas.drawText(numbers.get(index).toString(), x, y, painter);
 				if (states.containsKey(numbers.get(index))) {
+					painter.setStyle(Style.FILL);
 					int id = states.get(numbers.get(index));
 					switch (id) {
-						case 0:
-							painter.setColor(Color.CYAN);
-							break;
 						case 1:
-							painter.setColor(Color.GREEN);
+							painter.setARGB(128, 255, 0, 0);
 							break;
 						case 2:
-							painter.setColor(Color.MAGENTA);
+							painter.setARGB(128, 0, 255, 0);
+							break;
+						case 3:
+							painter.setARGB(128, 0, 0, 255);
 							break;
 					}
-					canvas.drawCircle(x, y, 20, painter);
+					canvas.drawRect(x - 20, y - 40, x + 40, y + 30, painter);
 				}
 				index++;
 			}

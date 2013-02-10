@@ -43,7 +43,6 @@ public class JSONUtil {
 			String line = null;
 			while ((line = reader.readLine()) != null) {
 				content.append(line + "\n");
-				Log.v("WTF", line);
 			}
 			input.close();
 			result = content.toString();
