@@ -27,6 +27,8 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
@@ -70,6 +72,10 @@ public class RoomActivity extends FragmentActivity {
 				}
 			}
 		});
+		
+		Animation animation = AnimationUtils.loadAnimation(this, R.anim.text_anim);
+        View animatedView = findViewById(R.id.activity_room_XML_texview);
+        animatedView.startAnimation(animation);
 	}
 	
 	private class SetRoomTask extends AsyncTask<Void, LobbyItem, Boolean> {

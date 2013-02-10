@@ -15,14 +15,17 @@
 
     <ImageView
         android:id="@+id/item_room_XML_imageview_room"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/room" />
+        android:layout_width="88dp"
+        android:layout_height="88dp"
+        android:src="@drawable/game_room" />
 
     <TextView
         android:id="@+id/item_room_XML_textview_capacity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_marginLeft="5dp"
+        android:textColor="#fdf700"
         android:text="TextView" />
 
 </LinearLayout>

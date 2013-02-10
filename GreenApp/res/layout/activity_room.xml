@@ -1,19 +1,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#F5DAEE"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ff2e3436" >
+
+    <TextView
+        android:id="@+id/activity_room_XML_texview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Game Rooms"
+        android:textColor="#FFFFFF"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        android:layout_marginLeft="50dp"
+        />
 
     <GridView
         android:id="@+id/activity_room_XML_gridview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-		android:stretchMode="columnWidth"
-		android:layout_marginLeft="50dp"
-		android:layout_marginTop="100dp"
-		android:verticalSpacing="20dp"
-		android:horizontalSpacing="20dp"
-        android:numColumns="2" >
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="100dp"
+        android:horizontalSpacing="20dp"
+        android:numColumns="2"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="20dp" >
     </GridView>
 
 </LinearLayout>

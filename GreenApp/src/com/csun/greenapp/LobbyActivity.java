@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils.TruncateAt;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,6 +34,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.TextView;
 
 public class LobbyActivity extends FragmentActivity {
 	private static final String TAG = LoginActivity.class.getSimpleName();
@@ -79,6 +81,12 @@ public class LobbyActivity extends FragmentActivity {
 				}
 			}
 		});
+		
+		TextView room = (TextView) findViewById(R.id.activity_lobby_XML_texview_room_no);
+		room.setText("Room #" + SingletonUser.getActiveUser().getRoomId());
+		room.setSelected(true);
+		room.setEllipsize(TruncateAt.MARQUEE);
+		room.setSingleLine(true);
 	}
 	
 	private class LoadUserTask extends AsyncTask<Void, LobbyItem, Boolean> {

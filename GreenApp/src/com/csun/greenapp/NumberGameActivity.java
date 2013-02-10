@@ -23,6 +23,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
 import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -42,6 +44,8 @@ public class NumberGameActivity extends FragmentActivity {
 	private GameTask gameTask;
 	private StrikeTask strikeTask = null;
 	private TextView score;
+	private SoundPool soundPool;
+	private int sound;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +55,14 @@ public class NumberGameActivity extends FragmentActivity {
 		gameTask.execute();
 		setUpBoardView();
 		setUpScoreView();
+		setUpSoundEffects();
 	}
 
+	private void setUpSoundEffects() {
+		soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+		sound = soundPool.load(this, R.raw.beep, 1);
+	}
+	
 	private void setUpScoreView() {
 		score = (TextView) findViewById(R.id.activity_main_XML_textview_user_score);
 		score.setTextColor(Color.RED);
@@ -68,9 +78,9 @@ public class NumberGameActivity extends FragmentActivity {
 				case MotionEvent.ACTION_DOWN:
 					int number = boardView.getNumberAt(event);
 					if (number != 0) {
+						soundPool.play(sound, 1.0f, 1.0f, 0, 0, 1.0f);
 						if (haveTaskAvailable(strikeTask)) {
-							strikeTask = new StrikeTask(URL_SUBMIT_STRIKE,
-									Integer.toString(number));
+							strikeTask = new StrikeTask(URL_SUBMIT_STRIKE, Integer.toString(number));
 							strikeTask.execute();
 						}
 						updateScore();

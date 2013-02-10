@@ -16,6 +16,8 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.Paint.Cap;
 import android.graphics.Paint.Style;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -33,6 +35,7 @@ public class NumberBoardView extends SurfaceView implements Callback {
 	private Context context;
 	private SurfaceHolder surfaceHolder;
 	private DrawingThread drawingThread;
+	private SoundPool soundPool; 
 
 	static {
 		painter = new Paint();
@@ -97,6 +100,8 @@ public class NumberBoardView extends SurfaceView implements Callback {
 		
 		surfaceHolder = getHolder();
 		surfaceHolder.addCallback(this);
+		
+		
 	}
 
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {

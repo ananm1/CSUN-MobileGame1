@@ -17,7 +17,6 @@ public class RoomAdapter extends BaseAdapter {
 	private Context context;
 	private LayoutInflater inflater;
 	private List<Room> rooms;
-	private AtomicBoolean keepOnAppending = new AtomicBoolean(true);
 	
 	static class ViewHolder {
 		TextView id;

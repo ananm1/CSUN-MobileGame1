@@ -1,20 +1,48 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="#ff2e3436"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/activity_lobby_XML_texview_room_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:focusable="false"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="Room #"
+            android:textColor="#088da5"
+            android:layout_marginLeft="30dp"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#FF0000" />
 
     <ListView
         android:id="@+id/activity_lobby_XML_listview"
         android:layout_width="match_parent"
-        android:layout_height="395dp" >
-
+        android:layout_height="356dp"
+        android:background="#ff2e3436" >
     </ListView>
 
     <Button
         android:id="@+id/activity_lobby_XML_button_ready"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ready" />
+        android:layout_marginLeft="20dp"
+        android:text="I&apos;m ready" />
 
 </LinearLayout>
