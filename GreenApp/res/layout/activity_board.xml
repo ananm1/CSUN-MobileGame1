@@ -2,19 +2,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity" >
+    android:orientation="vertical" >
 
     <com.csun.greenapp.NumberBoardView
         xmlns:custom="http://schemas.android.com/apk/res/com.csun.greenapp"
         android:id="@+id/activity_board_XML_number_board"
-        android:layout_width="263dp"
-        android:layout_height="match_parent" />
+        android:layout_width="match_parent"
+        android:layout_height="300dp" />
 
-    <TextView
-        android:id="@+id/activity_main_XML_textview_score"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="00"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ff2e3436"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:text="Your score: "
+                android:textColor="#85db24"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/activity_main_XML_textview_user_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:text="0"
+                android:textColor="#FF0000"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

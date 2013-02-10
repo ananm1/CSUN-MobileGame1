@@ -15,8 +15,8 @@ public class GameoverDialog extends DialogFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.dialog_network_error, container);
-		Button ok = (Button) view.findViewById(R.id.dialog_network_error_XML_button_ok);
+		View view = inflater.inflate(R.layout.dialog_gameover, container);
+		Button ok = (Button) view.findViewById(R.id.dialog_gameover_XML_button_yes);
 		ok.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

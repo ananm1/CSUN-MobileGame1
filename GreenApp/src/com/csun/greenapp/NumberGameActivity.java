@@ -14,6 +14,7 @@ import com.csun.greenapp.types.GameState;
 import com.csun.greenapp.types.GameStateParser;
 import com.csun.greenapp.utils.JSONUtil;
 import com.csun.greenapp.utils.RESTUtil;
+import com.csun.greenapp.utils.SingletonUser;
 import com.csun.greenapp.utils.UiUtil;
 
 import android.app.Activity;
@@ -51,9 +52,9 @@ public class NumberGameActivity extends FragmentActivity {
 		setUpBoardView();
 		setUpScoreView();
 	}
-	
+
 	private void setUpScoreView() {
-		score = (TextView) findViewById(R.id.activity_main_XML_textview_score);
+		score = (TextView) findViewById(R.id.activity_main_XML_textview_user_score);
 		score.setTextColor(Color.RED);
 	}
 
@@ -68,7 +69,8 @@ public class NumberGameActivity extends FragmentActivity {
 					int number = boardView.getNumberAt(event);
 					if (number != 0) {
 						if (haveTaskAvailable(strikeTask)) {
-							strikeTask = new StrikeTask(URL_SUBMIT_STRIKE, Integer.toString(number));
+							strikeTask = new StrikeTask(URL_SUBMIT_STRIKE,
+									Integer.toString(number));
 							strikeTask.execute();
 						}
 						updateScore();
@@ -77,7 +79,8 @@ public class NumberGameActivity extends FragmentActivity {
 						vib.vibrate(300);
 					}
 
-					UiUtil.showText(NumberGameActivity.this, Integer.toString(boardView.getNumberAt(event)));
+					UiUtil.showText(NumberGameActivity.this,
+							Integer.toString(boardView.getNumberAt(event)));
 					break;
 
 				case MotionEvent.ACTION_UP:
@@ -99,10 +102,10 @@ public class NumberGameActivity extends FragmentActivity {
 
 	private void showGameoverDialog() {
 		FragmentManager fm = getSupportFragmentManager();
-        GameoverDialog d = new GameoverDialog();
-        d.show(fm, "Game Over");	
+		GameoverDialog d = new GameoverDialog();
+		d.show(fm, "Gameover");
 	}
-	
+
 	private class GameTask extends AsyncTask<Void, Void, Boolean> {
 		private String url;
 
@@ -116,13 +119,11 @@ public class NumberGameActivity extends FragmentActivity {
 
 		@Override
 		protected void onProgressUpdate(Void... b) {
-			// redraw
 			boardView.invalidate();
 		}
 
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			List<GameState> states = new ArrayList<GameState>();
 			while (!isCancelled() && !isGameOver()) {
 				InputStream input = RESTUtil.get(url);
 				// build JSON array
@@ -133,11 +134,16 @@ public class NumberGameActivity extends FragmentActivity {
 				// parse data
 				if (!isCancelled() && array != null) {
 					if (array.length() > 0) {
-						for (int i = 0; i < array.length(); ++i) {
+						int current = 0;
+						synchronized (this) {
+							current = boardView.getStateSize();
+						}
+						for (int i = current; i < array.length(); ++i) {
 							if (!isCancelled()) {
 								GameState s = null;
 								try {
-									s = new GameStateParser().parse(array.getJSONObject(i));
+									s = new GameStateParser().parse(array
+											.getJSONObject(i));
 									boardView.addNewState(s);
 								} catch (JSONException e) {
 									Log.e(TAG, "Parsing exception " + e, e);
@@ -154,7 +160,7 @@ public class NumberGameActivity extends FragmentActivity {
 
 		@Override
 		protected void onPostExecute(Boolean result) {
-			 showGameoverDialog();
+			showGameoverDialog();
 		}
 	}
 
@@ -180,7 +186,8 @@ public class NumberGameActivity extends FragmentActivity {
 		@Override
 		protected Void doInBackground(Void... params) {
 			List<NameValuePair> extras = new ArrayList<NameValuePair>();
-			extras.add(new BasicNameValuePair("user_id", "2"));
+			extras.add(new BasicNameValuePair("user_id", Integer
+					.toString(SingletonUser.getActiveUser().getId())));
 			extras.add(new BasicNameValuePair("number", number));
 			RESTUtil.post(url, extras);
 			return null;
@@ -191,16 +198,25 @@ public class NumberGameActivity extends FragmentActivity {
 
 		}
 	}
-	
+
 	private void updateScore() {
-		score.setText(Integer.toString(boardView.getUserScore(3)));
+		score.setText(Integer.toString(boardView.getUserScore(SingletonUser
+				.getActiveUser().getId())));
 	}
-	
+
 	private synchronized boolean isGameOver() {
-		return (boardView.getStateSize() == 50);
+		if (boardView != null) {
+			return boardView.haveAllNumbersCrossed();
+		}
+		return false;
 	}
 
 	public boolean haveTaskAvailable(AsyncTask<?, ?, ?> task) {
 		return ((task == null) || (task != null && task.getStatus() == AsyncTask.Status.FINISHED));
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		// No call for super(). Bug on API Level > 11.
 	}
 }

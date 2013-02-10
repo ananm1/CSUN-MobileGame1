@@ -1,0 +1,28 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/item_room_XML_textview_room_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Room #1"
+        android:textStyle="bold"
+        android:textColor="#FF0000"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ImageView
+        android:id="@+id/item_room_XML_imageview_room"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/room" />
+
+    <TextView
+        android:id="@+id/item_room_XML_textview_capacity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+</LinearLayout>

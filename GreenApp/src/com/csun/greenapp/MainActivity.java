@@ -23,6 +23,11 @@ public class MainActivity extends Activity {
 			}
 		});
 		
+		findViewById(R.id.activity_main_XML_button_room).setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				startActivity(new Intent(getApplicationContext(), RoomActivity.class));
+			}
+		});
 	}
 
 	@Override
