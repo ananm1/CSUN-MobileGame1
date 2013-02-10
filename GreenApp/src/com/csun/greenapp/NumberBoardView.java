@@ -26,7 +26,7 @@ import android.view.SurfaceView;
 import android.view.View;
 
 public class NumberBoardView extends SurfaceView implements Callback {
-	private static final int SPACING = 64;
+	private static final int SPACING = 80;
 	private static final int ROW = 6;
 	private static final int COL = 5;
 	private static final int N = ROW * COL;
@@ -35,7 +35,6 @@ public class NumberBoardView extends SurfaceView implements Callback {
 	private Context context;
 	private SurfaceHolder surfaceHolder;
 	private DrawingThread drawingThread;
-	private SoundPool soundPool; 
 
 	static {
 		painter = new Paint();
@@ -97,14 +96,13 @@ public class NumberBoardView extends SurfaceView implements Callback {
 				idx++;
 			}
 		}
-		
+
 		surfaceHolder = getHolder();
 		surfaceHolder.addCallback(this);
-		
-		
 	}
 
-	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+	public void surfaceChanged(SurfaceHolder holder, int format, int width,
+			int height) {
 		// empty
 	}
 
@@ -136,40 +134,43 @@ public class NumberBoardView extends SurfaceView implements Callback {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		canvas.drawColor(Color.WHITE);
-		int index = 0;
-		for (int y = SPACING; y <= ROW * SPACING; y += SPACING) {
-			for (int x = SPACING; x <= COL * SPACING; x += SPACING) {
-				
-				// draw text
-				painter.setColor(Color.BLACK);
-				canvas.drawText(numbers.get(index).toString(), x, y, painter);
-			
-				// draw board
-				painter.setStyle(Style.STROKE);
-				painter.setColor(Color.parseColor("#088da5"));
-				canvas.drawRect(x - 20, y - 40, x + 40, y + 30, painter);
-				
-				if (states.containsKey(numbers.get(index))) {
-					painter.setStyle(Style.FILL);
-					int id = states.get(numbers.get(index));
-					switch (id) {
-					case 1:
-						painter.setARGB(128, 255, 0, 0);
-						break;
-					case 2:
-						painter.setARGB(128, 0, 255, 0);
-						break;
-					case 3:
-						painter.setARGB(128, 0, 0, 255);
-						break;
-					case 4:
-						painter.setARGB(128, 255, 0, 255);
-						break;
+		if (canvas != null) {
+			canvas.drawColor(Color.WHITE);
+			int index = 0;
+			for (int y = SPACING; y <= ROW * SPACING; y += SPACING) {
+				for (int x = SPACING; x <= COL * SPACING; x += SPACING) {
+
+					// draw text
+					painter.setColor(Color.BLACK);
+					canvas.drawText(numbers.get(index).toString(), x, y,
+							painter);
+
+					// draw board
+					painter.setStyle(Style.STROKE);
+					painter.setColor(Color.parseColor("#088da5"));
+					canvas.drawRect(x - 20, y - 40, x + 50, y + 40, painter);
+
+					if (states.containsKey(numbers.get(index))) {
+						painter.setStyle(Style.FILL);
+						int id = states.get(numbers.get(index));
+						switch (id) {
+						case 1:
+							painter.setARGB(128, 255, 0, 0);
+							break;
+						case 2:
+							painter.setARGB(128, 0, 255, 0);
+							break;
+						case 3:
+							painter.setARGB(128, 0, 0, 255);
+							break;
+						case 4:
+							painter.setARGB(128, 255, 0, 255);
+							break;
+						}
+						canvas.drawRect(x - 20, y - 40, x + 50, y + 40, painter);
 					}
-					canvas.drawRect(x - 20, y - 40, x + 40, y + 30, painter);
+					index++;
 				}
-				index++;
 			}
 		}
 	}
@@ -193,7 +194,7 @@ public class NumberBoardView extends SurfaceView implements Callback {
 		}
 		return 0;
 	}
-	
+
 	public synchronized boolean haveAllNumbersCrossed() {
 		return (states.size() == N);
 	}
@@ -205,16 +206,16 @@ public class NumberBoardView extends SurfaceView implements Callback {
 	}
 
 	class DrawingThread extends Thread {
-		boolean flag;
-		SurfaceHolder myHolder;
-		NumberBoardView board;
+		private volatile boolean flag;
+		private SurfaceHolder myHolder;
+		private NumberBoardView board;
 
 		public DrawingThread(SurfaceHolder holder, NumberBoardView board) {
 			myHolder = holder;
 			this.board = board;
 		}
 
-		public void setFlag(boolean myFlag) {
+		public synchronized void setFlag(boolean myFlag) {
 			flag = myFlag;
 		}
 

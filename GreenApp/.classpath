@@ -4,11 +4,11 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
-	<classpathentry kind="lib" path="C:/Users/Tu/workspace/CSUN-MobileGame1/GreenApp/libs/activation.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Tu/workspace/CSUN-MobileGame1/GreenApp/libs/additionnal.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Tu/workspace/CSUN-MobileGame1/GreenApp/libs/android-support-v4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Tu/workspace/CSUN-MobileGame1/GreenApp/libs/android-support-v13.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Tu/workspace/CSUN-MobileGame1/GreenApp/libs/mail.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Tu/workspace/CSUN-MobileGame1/GreenApp/libs/universal-image-loader-1.7.0-with-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/chan/git/CSUN-MobileGame1/GreenApp/libs/activation.jar"/>
+	<classpathentry kind="lib" path="C:/Users/chan/git/CSUN-MobileGame1/GreenApp/libs/additionnal.jar"/>
+	<classpathentry kind="lib" path="C:/Users/chan/git/CSUN-MobileGame1/GreenApp/libs/android-support-v4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/chan/git/CSUN-MobileGame1/GreenApp/libs/android-support-v13.jar"/>
+	<classpathentry kind="lib" path="C:/Users/chan/git/CSUN-MobileGame1/GreenApp/libs/mail.jar"/>
+	<classpathentry kind="lib" path="C:/Users/chan/git/CSUN-MobileGame1/GreenApp/libs/universal-image-loader-1.7.0-with-sources.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
