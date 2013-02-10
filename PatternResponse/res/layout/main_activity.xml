@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Chris Bowles - 2/10/13
+     SS12 Coding Competition 2013 Project
+     main_activity.xml
+-->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity" >
+
+    <TextView
+        android:id="@+id/mainTextView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textSize="36sp" />
+
+    <TextView
+        android:id="@+id/mainTextView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/mainTextView1"
+        android:layout_margin="8sp"
+        android:gravity="center"
+        android:text="@string/description"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/mainTextView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/mainLinearLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/mainTextView2"
+        android:layout_margin="8sp"
+        android:gravity="center"
+        android:text="@string/instructions"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:id="@+id/mainLinearLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:baselineAligned="false"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/mainButton1"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="@string/one_player" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/mainButton2"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="@string/two_player" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>
