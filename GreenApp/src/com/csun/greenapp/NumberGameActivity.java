@@ -60,7 +60,8 @@ public class NumberGameActivity extends FragmentActivity {
 
 	private void setUpSoundEffects() {
 		soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
-		sound = soundPool.load(this, R.raw.beep, 1);
+		sound = soundPool.load(this, R.raw.ss12_in_game_sound, 1);
+		soundPool.play(sound, 1.0f, 1.0f, 1, -1, 1.0f);
 	}
 	
 	private void setUpScoreView() {

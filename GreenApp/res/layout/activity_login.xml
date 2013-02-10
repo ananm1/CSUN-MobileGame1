@@ -8,8 +8,10 @@
         android:id="@+id/activity_login_XML_textview_app_name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="					Number Rush				"
+        android:gravity="center_horizontal"
+        android:text="Number Rush"
         android:textStyle="bold"
+        android:fontFamily=""
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <EditText
