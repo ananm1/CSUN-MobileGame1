@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Pattern Response</string>
-    <string name="description">Welcome to Pattern Response. In this game, players must memorize a musical pattern and replay the notes by pressing their respective symbols located at the bottom of the screen. If a player succedes, they must then play an additional note to add to the pattern. If a player fails, they lose the game. The first player to play 16 notes wins.</string>
+    <string name="description">Welcome to Pattern Response. In this game, players must memorize a musical pattern and replay the notes by pressing their respective symbols located at the bottom of the screen. If a player succeeds, they must then play an additional note to add to the pattern. If a player fails, they lose the game. The first player to play 16 notes wins.</string>
     <string name="instructions">Press the bottom left corner of the screen to play against the computer. Press the bottom right corner of the screen to play against another person instead.</string>
     <string name="one_player">1-Player Game</string>
     <string name="two_player">2-Player Game</string>
