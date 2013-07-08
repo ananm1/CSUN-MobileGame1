@@ -1,11 +1,5 @@
 <?php
-	$host = 'bookboi1980.db.8480854.hostedresource.com';
-	$user = 'bookboi1980';
-	$password = 'Denver281980';
-	$db_name = 'bookboi1980';
-	$tbl_game_state = 'game_state';	
-	$tbl_user = 'ss12_user';
-	$lobby_table_name = 'lobby';
+
 	
 	define('RETURN_KEYWORD','result');
 	define('RETURN_VALUE_FAILED','false');
